@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "nodemon --watch server.js --ext js,json --exec \"node server.js\"",
+    "dev": "nodemon --watch server.js --watch config --watch controllers --watch routes --ext js,json --exec \"node server.js\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
