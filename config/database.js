@@ -1,45 +1,29 @@
 const mysql = require("mysql2");
 
-let db;
-let retryAttempts = 0;
-const maxRetries = 5;
+// Tạo connection pool
+const pool = mysql.createPool({
+  host: "localhost",
+  user: "root",
+  password: "123456",
+  database: "bai9",
+  waitForConnections: true,
+  connectionLimit: 10, // Số lượng kết nối tối đa
+  queueLimit: 0, // Không giới hạn số lượng truy vấn trong hàng chờ
+});
 
-function connectToDatabase() {
-  db = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "123456",
-    database: "bai9",
-  });
+// Sử dụng pool để quản lý kết nối MySQL, không cần hàm connectToDatabase
+pool.on("connection", (connection) => {
+  console.log("MySQL pool connected: threadId " + connection.threadId);
+});
 
-  db.connect((err) => {
-    if (err) {
-      console.error("Kết nối cơ sở dữ liệu thất bại: ", err);
-      if (retryAttempts < maxRetries) {
-        retryAttempts++;
-        console.log(
-          `Đang thử kết nối lại (thử ${retryAttempts}/${maxRetries}) sau 5 giây...`
-        );
-        setTimeout(connectToDatabase, 5000);
-      } else {
-        console.log("Đã đạt giới hạn số lần thử kết nối lại.");
-      }
-    } else {
-      console.log("Đã kết nối cơ sở dữ liệu MySQL");
-      retryAttempts = 0;
-    }
-  });
+pool.on("error", (err) => {
+  console.error("Lỗi cơ sở dữ liệu: ", err);
+  if (err.code === "PROTOCOL_CONNECTION_LOST" || err.code === "ECONNREFUSED") {
+    console.log("Mất kết nối với MySQL. Đang thử kết nối lại...");
+  } else {
+    throw err;
+  }
+});
 
-  db.on("error", (err) => {
-    if (
-      err.code === "PROTOCOL_CONNECTION_LOST" ||
-      err.code === "ECONNREFUSED"
-    ) {
-      connectToDatabase();
-    }
-  });
-}
-
-connectToDatabase();
-
-module.exports = db;
+// Export pool với promise để dễ quản lý các truy vấn
+module.exports = pool.promise();

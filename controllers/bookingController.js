@@ -1,7 +1,7 @@
 const db = require("../config/database");
 
 // Lấy danh sách booking của người dùng
-exports.getBookingsByUserId = (req, res) => {
+exports.getBookingsByUserId = async (req, res) => {
   const userId = req.params.userId;
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 10;
@@ -16,18 +16,17 @@ exports.getBookingsByUserId = (req, res) => {
     ORDER BY res.checkin DESC
     LIMIT ? OFFSET ?`;
 
-  db.query(sql, [userId, limit, offset], (err, results) => {
-    if (err) {
-      console.error("Lỗi truy vấn: ", err);
-      return res.status(500).send("Lỗi truy vấn dữ liệu");
-    }
-
+  try {
+    const [results] = await db.query(sql, [userId, limit, offset]);
     res.status(200).json(results);
-  });
+  } catch (err) {
+    console.error("Lỗi truy vấn: ", err);
+    res.status(500).send("Lỗi truy vấn dữ liệu");
+  }
 };
 
 // Lấy chi tiết booking theo bookingId
-exports.getBookingById = (req, res) => {
+exports.getBookingById = async (req, res) => {
   const userId = req.params.userId;
   const bookingId = req.params.bookingId;
 
@@ -38,16 +37,14 @@ exports.getBookingById = (req, res) => {
     JOIN users u ON res.user_id = u.id
     WHERE res.id = ? AND u.id = ?`;
 
-  db.query(sql, [bookingId, userId], (err, results) => {
-    if (err) {
-      console.error("Lỗi truy vấn: ", err);
-      return res.status(500).send("Lỗi truy vấn dữ liệu");
-    }
-
+  try {
+    const [results] = await db.query(sql, [bookingId, userId]);
     if (results.length === 0) {
       return res.status(404).send("Không tìm thấy booking");
     }
-
     res.status(200).json(results[0]);
-  });
+  } catch (err) {
+    console.error("Lỗi truy vấn: ", err);
+    res.status(500).send("Lỗi truy vấn dữ liệu");
+  }
 };
