@@ -2,6 +2,8 @@ const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
 require("dotenv").config();
+const bodyParser = require("body-parser");
+const authRoutes = require("./routes/authRoutes");
 const setupSwagger = require("./swagger");
 const userRoutes = require("./routes/userRoutes");
 const bookingRoutes = require("./routes/bookingRoutes");
@@ -12,7 +14,8 @@ const port = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(helmet());
-app.use(express.json());
+app.use(bodyParser.json());
+app.use("/api/auth", authRoutes);
 
 app.use("/users", userRoutes);
 app.use("/bookings", bookingRoutes);
