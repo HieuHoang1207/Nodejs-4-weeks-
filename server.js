@@ -21,6 +21,14 @@ app.use("/users", userRoutes);
 app.use("/bookings", bookingRoutes);
 app.use("/", homeRoutes);
 
+// Route gây crash hoàn toàn server
+app.get("/crash", (req, res) => {
+  res.send("Server is about to crash!");
+
+  // Buộc tiến trình dừng
+  process.exit(1);
+});
+
 setupSwagger(app);
 
 // Middleware xử lý lỗi 404
