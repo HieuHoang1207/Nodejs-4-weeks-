@@ -12,7 +12,13 @@ const homeRoutes = require("./routes/homeRoutes");
 const app = express();
 const port = process.env.PORT || 3000;
 
-app.use(cors());
+const corsOptions = {
+  methods: "GET,POST", // Cho phép các phương thức này
+  allowedHeaders: ["Content-Type"], // Chỉ cho phép header này
+};
+
+// Sử dụng middleware CORS
+app.use(cors(corsOptions));
 app.use(helmet());
 app.use(bodyParser.json());
 app.use("/api/auth", authRoutes);
