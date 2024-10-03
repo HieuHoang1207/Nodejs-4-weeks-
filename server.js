@@ -12,6 +12,14 @@ const homeRoutes = require("./routes/homeRoutes");
 const app = express();
 const port = process.env.PORT || 3000;
 
+// Ví dụ bài 11
+// const corsOptions = {
+//   methods: "GET,POST", // Cho phép các phương thức này
+//   allowedHeaders: ["Content-Type"], // Chỉ cho phép header này
+// };
+// // Sử dụng middleware CORS
+// app.use(cors(corsOptions));
+
 app.use(cors());
 app.use(helmet());
 app.use(bodyParser.json());
@@ -20,6 +28,14 @@ app.use("/api/auth", authRoutes);
 app.use("/users", userRoutes);
 app.use("/bookings", bookingRoutes);
 app.use("/", homeRoutes);
+
+// Route gây crash hoàn toàn server
+app.get("/crash", (req, res) => {
+  res.send("Server is about to crash!");
+
+  // Buộc tiến trình dừng
+  process.exit(1);
+});
 
 setupSwagger(app);
 
