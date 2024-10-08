@@ -4,7 +4,7 @@ require("dotenv").config(); // Thêm dòng này
 const express = require("express");
 const session = require("express-session");
 const passport = require("passport");
-const authRoutes = require("./routes/auth");
+const authRoutes = require("./routes/authPP");
 
 const app = express();
 

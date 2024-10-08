@@ -1,4 +1,4 @@
-const db = require("../utils/dbFB");
+const db = require("../config/dbFB");
 
 exports.findByFacebookIdOrEmail = (facebookId, email) => {
   return new Promise((resolve, reject) => {

@@ -4,7 +4,7 @@ const helmet = require("helmet");
 require("dotenv").config();
 const bodyParser = require("body-parser");
 const authRoutes = require("./routes/authRoutes");
-const setupSwagger = require("./swagger");
+const setupSwagger = require("./config/swagger");
 const userRoutes = require("./routes/userRoutes");
 const bookingRoutes = require("./routes/bookingRoutes");
 const homeRoutes = require("./routes/homeRoutes");
@@ -14,14 +14,21 @@ const port = process.env.PORT || 3000;
 
 // Ví dụ bài 11
 // const corsOptions = {
+//   origin: "http://localhost:3000",
 //   methods: "GET,POST", // Cho phép các phương thức này
 //   allowedHeaders: ["Content-Type"], // Chỉ cho phép header này
 // };
 // // Sử dụng middleware CORS
 // app.use(cors(corsOptions));
-
 app.use(cors());
-app.use(helmet());
+// app.use(
+//   helmet({
+//     hidePoweredBy: true, // Loại bỏ header X-Powered-By để ẩn công nghệ đang sử dụng
+//     xssFilter: true, // Bật bộ lọc XSS của trình duyệt
+//     dnsPrefetchControl: { allow: false }, // Ngăn chặn DNS prefetching
+//   })
+// );
+app.use(helmet({}));
 app.use(bodyParser.json());
 app.use("/api/auth", authRoutes);
 
