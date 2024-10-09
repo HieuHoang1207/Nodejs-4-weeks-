@@ -2,10 +2,12 @@
 const express = require("express");
 const { signup, login } = require("../controllers/authController");
 const { protect } = require("../middlewares/authMiddleware");
+const { signupSendGmail } = require("../controllers/authControllerSendGmail22");
 
 const router = express.Router();
 
 router.post("/signup", signup); // Đăng ký
+router.post("/signupSendGmail", signupSendGmail); // Đăng ký
 router.post("/login", login); // Đăng nhập
 router.get("/protected", protect, (req, res) => {
   res.status(200).json({
