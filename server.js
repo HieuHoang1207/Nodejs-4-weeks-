@@ -8,6 +8,7 @@ const setupSwagger = require("./config/swagger");
 const userRoutes = require("./routes/userRoutes");
 const bookingRoutes = require("./routes/bookingRoutes");
 const homeRoutes = require("./routes/homeRoutes");
+const uploadRoutes = require("./routes/uploadRoutes24");
 const i18n = require("i18n");
 
 const app = express();
@@ -53,6 +54,12 @@ app.get("/welcome", (req, res) => {
     message: res.__("welcome_message"),
   });
 });
+
+// Middleware để phục vụ các file tĩnh
+app.use("/uploads", express.static("public/uploads"));
+
+// Sử dụng routes cho việc upload
+app.use(uploadRoutes);
 
 app.use("/api/auth", authRoutes);
 

@@ -1,4 +1,5 @@
 const nodemailer = require("nodemailer");
+const { generateEmailTemplate } = require("../templates/emailTemplate");
 require("dotenv").config();
 
 // Cấu hình transporter cho Gmail
@@ -10,18 +11,14 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-// Tạo hàm gửi email
-exports.sendWelcomeEmail = async (email, name) => {
+// Hàm gửi email với template
+exports.sendWelcomeEmail = async (email, name, subject, content) => {
   try {
     const mailOptions = {
       from: "hieu.mh7@gmail.com",
       to: email,
-      subject: "Welcome to Gooup1!",
-      html: `
-                <h1>Hello, ${name}!</h1>
-                <p>Thank you for registering on Gooup1. We are excited to have you!</p>
-                <footer>Chào mừng bạn đến với Gooup1</footer>
-            `,
+      subject: subject,
+      html: generateEmailTemplate(name, content), // Sử dụng template đã tạo
     };
 
     // Gửi email
