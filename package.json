@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "nodemon --watch serverBai21.js --watch config --watch controllers --watch models --watch routes --watch services --ext js,json --exec \"node serverBai21.js\"",
+    "dev": "nodemon --watch server.js --watch config --watch controllers --watch models --watch routes --watch services --ext js,json --exec \"node server.js\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -22,12 +22,10 @@
     "express": "^4.21.0",
     "express-basic-auth": "^1.2.1",
     "express-session": "^1.18.0",
-    "googleapis": "^144.0.0",
     "helmet": "^8.0.0",
     "jsonwebtoken": "^9.0.2",
     "mysql": "^2.18.1",
     "mysql2": "^3.11.3",
-    "nodemailer": "^6.9.15",
     "passport": "^0.7.0",
     "passport-facebook": "^3.0.0",
     "passport-google-oauth20": "^2.0.0",
