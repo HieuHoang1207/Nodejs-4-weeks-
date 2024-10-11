@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Socket.io Chat</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+    h1 {
+      color: #333;
+    }
+    #messages {
+      margin-top: 20px;
+      height: 200px;
+      overflow-y: auto;
+      border: 1px solid #ddd;
+      padding: 10px;
+      background-color: #f9f9f9;
+    }
+    #messageForm {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Socket.io Chat with Long-Polling</h1>
+
+  <div id="messages"></div>
+
+  <form id="messageForm">
+    <input type="text" id="messageInput" placeholder="Type your message here" autocomplete="off">
+    <button type="submit">Send</button>
+  </form>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io();
+
+    // Lắng nghe sự kiện 'chatMessage' từ server và hiển thị tin nhắn
+    socket.on('chatMessage', (msg) => {
+      const messageDiv = document.getElementById('messages');
+      const newMessage = document.createElement('div');
+      newMessage.textContent = msg;
+      messageDiv.appendChild(newMessage);
+      messageDiv.scrollTop = messageDiv.scrollHeight;  // Tự động scroll xuống cuối khi có tin nhắn mới
+    });
+
+    // Xử lý form gửi tin nhắn
+    const form = document.getElementById('messageForm');
+    const input = document.getElementById('messageInput');
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();  // Ngăn form submit truyền thống
+
+      const message = input.value;
+      if (message) {
+        // Gửi tin nhắn tới server
+        socket.emit('chatMessage', message);
+        input.value = '';  // Clear input sau khi gửi
+      }
+    });
+  </script>
+</body>
+</html>
