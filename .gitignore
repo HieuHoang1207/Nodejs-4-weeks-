@@ -1,4 +1,5 @@
 .env
-test.js
+test1.js
 tempCodeRunnerFile.js
 node_modules/
+coverage/
