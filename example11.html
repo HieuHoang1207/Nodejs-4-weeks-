@@ -1,36 +1,37 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CORS Example</title>
-</head>
-<body>
+  </head>
+  <body>
     <h1>Test CORS</h1>
     <button id="fetchData">Lấy dữ liệu từ server</button>
     <pre id="result"></pre>
 
     <script>
-        document.getElementById('fetchData').addEventListener('click', () => {
-            fetch('http://localhost:3000/users/', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => {
-                document.getElementById('result').textContent = JSON.stringify(data);
-            })
-            .catch(error => {
-                document.getElementById('result').textContent = 'Lỗi: ' + error;
-            });
-        });
+      document.getElementById("fetchData").addEventListener("click", () => {
+        fetch("http://localhost:3000/users/", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("Network response was not ok");
+            }
+            return response.json();
+          })
+          .then((data) => {
+            document.getElementById("result").textContent =
+              JSON.stringify(data);
+          })
+          .catch((error) => {
+            document.getElementById("result").textContent = "Lỗi: " + error;
+          });
+      });
     </script>
-</body>
+  </body>
 </html>

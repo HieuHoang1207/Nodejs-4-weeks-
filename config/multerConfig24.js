@@ -1,5 +1,4 @@
 const multer = require("multer");
-const path = require("path");
 
 // Cấu hình lưu file
 const storage = multer.diskStorage({

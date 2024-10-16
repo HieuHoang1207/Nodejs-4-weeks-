@@ -42,6 +42,5 @@ exports.updateUser = (req, res) => {
 
 // Xóa người dùng
 exports.deleteUser = (req, res) => {
-  const userId = req.params.id;
   res.status(204).send();
 };

@@ -2,7 +2,6 @@ const express = require("express");
 const passport = require("passport");
 const session = require("express-session");
 const dotenv = require("dotenv");
-const db = require("./config/dbGG");
 const authRoutes = require("./routes/authGG");
 const setupSwagger = require("./config/swaggerGG");
 const authMiddlewareGG = require("./middlewares/authMiddlewareGG");

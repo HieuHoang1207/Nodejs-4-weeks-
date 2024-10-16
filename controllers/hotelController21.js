@@ -7,6 +7,7 @@ const getAllHotels21 = async (req, res) => {
     const [hotels] = await db.query("SELECT * FROM hotels");
     res.status(200).json(hotels);
   } catch (error) {
+    console.log(error);
     res.status(500).json({ message: "Error fetching hotels" });
   }
 };
@@ -21,6 +22,7 @@ const createHotel21 = async (req, res) => {
     );
     res.status(201).json({ message: "Hotel created successfully" });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ message: "Error creating hotel" });
   }
 };
@@ -36,6 +38,7 @@ const updateHotel21 = async (req, res) => {
     );
     res.status(200).json({ message: "Hotel updated successfully" });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ message: "Error updating hotel" });
   }
 };
@@ -47,6 +50,7 @@ const deleteHotel21 = async (req, res) => {
     await db.query("DELETE FROM hotels WHERE id = ?", [id]);
     res.status(200).json({ message: "Hotel deleted successfully" });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ message: "Error deleting hotel" });
   }
 };
@@ -60,12 +64,11 @@ const createRoom21 = async (req, res) => {
       "INSERT INTO rooms (hotel_id, user_id, name, price) VALUES (?, ?, ?, ?)",
       [hotel_id, userId, name, price]
     );
-    res
-      .status(201)
-      .json({
-        message: "Room created successfully, waiting for Admin approval",
-      });
+    res.status(201).json({
+      message: "Room created successfully, waiting for Admin approval",
+    });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ message: "Error creating room" });
   }
 };
@@ -77,6 +80,7 @@ const approveRoom21 = async (req, res) => {
     await db.query("UPDATE rooms SET isApproved = true WHERE id = ?", [id]);
     res.status(200).json({ message: "Room approved" });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ message: "Error approving room" });
   }
 };
